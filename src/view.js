@@ -32,6 +32,7 @@ export default class View {
   static async _setMenuMobile() {
     const htmlTemplateMenuDesktop = getMenuMobileTemplate(this.planetNames);
     navContent.innerHTML = `${htmlTemplateMenuDesktop}`;
+
     this.addEventFromBtnListPlanets();
   }
   static addEventFromBtnListPlanets() {
@@ -46,7 +47,7 @@ export default class View {
     const modalListPlanets = View._getElementFromId({ id: "list_planets" });
 
     modalListPlanets.classList.toggle("active");
-    console.log("pato");
+
     // View.removeScrollFromBody();
   }
   // Menu desktop methods
