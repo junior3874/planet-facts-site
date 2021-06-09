@@ -29,7 +29,10 @@ body {
   grid-template-rows: auto;
   grid-template-areas:
     "header"
-    "options-header";
+    "options_planet"
+    "planet_image"
+    "planet_source"
+    "planet_props";
 }
 header {
   grid-area: header;
@@ -66,7 +69,7 @@ header #planet_options .icon-hamburger:hover {
 }
 header #planet_options #list_planets {
   padding: 1rem;
-  display: flex;
+  display: none;
   flex-direction: column;
   position: absolute;
   background-color: #070724;
@@ -94,16 +97,60 @@ header #planet_options #list_planets .planet_option_mobile {
   justify-content: space-between;
   align-items: center;
   display: flex;
+  padding: 1rem 0 1rem 0;
+}
+
+header #planet_options #list_planets .planet_option_mobile:not(:last-child) {
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
 }
 
 header #planet_options #list_planets .planet_option_mobile span {
   width: 100%;
   padding-left: 3rem;
+  color: rgb(182, 181, 181);
+}
+
+header #planet_options #list_planets .planet_option_mobile span:hover {
+  color: white;
 }
 
 header #planet_options #list_planets .planet_option_mobile .planet_option_icon {
-  min-width: 32px;
-  min-height: 32px;
-  background-color: khaki;
+  min-width: 24px;
+  min-height: 24px;
+
   border-radius: 50%;
+}
+
+#planet_props {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#planet_props .planet_prop {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 1px solid #38384f;
+  padding: 1.5rem;
+
+  margin-bottom: 1rem;
+
+  font-family: "Spartan", sans-serif;
+  font-weight: 700;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  line-height: 1.5625rem;
+  letter-spacing: 1.3px;
+
+  color: rgb(146, 146, 146);
+}
+
+#planet_props .planet_prop .planet_prop_value {
+  font-size: 1.425rem;
+  color: white;
 }
