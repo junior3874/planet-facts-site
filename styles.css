@@ -121,6 +121,34 @@ header #planet_options #list_planets .planet_option_mobile .planet_option_icon {
   border-radius: 50%;
 }
 
+#planet_menu {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-family: "Spartan";
+  font-weight: 700;
+  font-size: 0.6rem;
+  line-height: 0.625rem;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 2.6px;
+  color: rgb(146, 146, 146);
+}
+
+#planet_menu .planet_menu_option {
+  padding-bottom: 1rem;
+}
+
+#planet_menu .planet_menu_option.active {
+  border-bottom: 3px solid #419ebb;
+}
+#planet_menu .planet_menu_option:hover {
+  color: white;
+  cursor: pointer;
+}
+
 #planet_props {
   display: flex;
   flex-direction: column;
