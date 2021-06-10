@@ -28,6 +28,11 @@ export default class View {
     return existingItem;
   }
 
+  static _getElementsFromClass({ className, baseElement = document }) {
+    const existingItem = baseElement.querySelectorAll(`[class=${className}]`);
+    return existingItem;
+  }
+
   // Menu mobile methods
   static async _setMenuMobile() {
     const htmlTemplateMenuDesktop = getMenuMobileTemplate(this.planetNames);
@@ -53,5 +58,23 @@ export default class View {
   // Menu desktop methods
   static _setMenuDesktop() {
     return;
+    f;
+  }
+
+  //methods
+
+  static setEventClickFromBtnPlanetOptionMobile(command) {
+    const btnsPlanetOptionMobile = View._getElementsFromClass({
+      className: "planet_option_mobile",
+    });
+
+    btnsPlanetOptionMobile.forEach((btn) => {
+      btn.addEventListener("click", (args) =>
+        View._eventClickFromBtnPlanetOptionMobile(args, command)
+      );
+    });
+  }
+  static _eventClickFromBtnPlanetOptionMobile(e, command) {
+    command(e.currentTarget.id);
   }
 }
