@@ -8,7 +8,19 @@ export default class View {
 	static loadingPlanets(planets) {
 		this.planetNames = planets.map(({ name }) => name);
 		this.planets = planets;
+		const firstPlanet = this.planets[0];
+		View._setPlanetInPage(firstPlanet);
 	}
+
+	static _setPlanetInPage(planet) {
+		this.currentPlanet = planet;
+		const initialPropPlanet = this.currentPlanet.overview;
+		View._setPropPlanet(initialPropPlanet);
+	}
+	static _setPropPlanet(prop) {
+		this.currentProp = prop;
+	}
+
 	static initializeMobileViewPort() {
 		View._monitoringMobileViewPort();
 		mobileViewPort.addListener(View._monitoringMobileViewPort);
@@ -62,7 +74,6 @@ export default class View {
 	// Menu desktop methods
 	static _setMenuDesktop() {
 		return;
-		f;
 	}
 
 	//methods
