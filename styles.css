@@ -62,6 +62,8 @@ header #planet_options {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  outline: none;
 }
 header #planet_options .icon-hamburger:hover {
   filter: invert(54%) sepia(0%) saturate(0%) hue-rotate(356deg) brightness(93%)
@@ -73,7 +75,7 @@ header #planet_options #list_planets {
   flex-direction: column;
   position: absolute;
   background-color: #070724;
-  top: 10%;
+  top: calc(0% + 50px);
   left: 0;
   right: 0;
   bottom: 0;
@@ -150,6 +152,55 @@ header #planet_options #list_planets .planet_option_mobile .planet_option_icon {
   cursor: pointer;
 }
 
+#planet_source {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#planet_source #planet_source_name {
+  font-family: "Antonio", sans-serif;
+  font-weight: 500;
+
+  font-size: 2.5rem;
+  line-height: 3.25rem;
+  letter-spacing: -1.5;
+
+  text-transform: uppercase;
+
+  padding-bottom: 2rem;
+}
+
+#planet_source #planet_source_sinopse {
+  font-family: "Spartan", sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5625rem;
+  text-align: center;
+  padding-bottom: 2rem;
+
+  display: flex;
+  flex-direction: column;
+
+  color: rgb(255, 255, 255);
+}
+
+#planet_source #planet_source_sinopse #planet_source_span {
+  padding: 1.75rem;
+  font-weight: 400;
+}
+
+#planet_source #planet_source_sinopse #planet_source_span {
+  padding: 1.75rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.775);
+}
+
+#planet_source #planet_source_sinopse #planet_source_span a {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  margin: 0 6px;
+}
 #planet_image {
   max-width: 35%;
   max-height: 35%;
