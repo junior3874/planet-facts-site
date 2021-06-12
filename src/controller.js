@@ -15,10 +15,12 @@ export default class Controller {
 
   async _setupViewEvents() {
     const planets = await this.onGetPlanetsFromService();
+    this.view.initializeMonitoringPlanetMenu();
     await this.view.loadingPlanets(planets);
+    this.view.setCommandForGetPlanet(this.changePlanetPage());
     this.view.initializeMobileViewPort();
-    this.view.setEventClickFromBtnPlanetOptionMobile(this.changePlanetPage());
-    this.view.initializeMonitoringPlanetProp();
+
+    this.view.setEventClickForBtnMenuPlanetOption();
   }
 
   onGetPlanetsFromService() {
@@ -30,7 +32,8 @@ export default class Controller {
       const planetData = await this.service.getPlanet(planetName);
 
       const planet = new Planet(...planetData);
-      return planet;
+
+      return this.view.setPlanetInPage(planet);
     };
   }
 }
