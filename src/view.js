@@ -5,35 +5,87 @@ const mobileViewPort = window.matchMedia("(max-width: 786px)");
 const body = document.querySelector("body");
 
 const planetSourceP = document.getElementById("planet_source_p");
+const planetSourceLink = document.getElementById("planet_source_a");
+const planetName = document.getElementById("planet_source_name");
+
+const planetRotation = document.getElementById("planet_prop_rotation_time");
+const planetRevolution = document.getElementById("planet_prop_revolution_time");
+const planetRadius = document.getElementById("planet_prop_radius");
+const planetTemperature = document.getElementById("planet_prop_average_temp");
+
+const btnsMenuOptionPlanet = document.querySelectorAll(
+  '[class="planet_menu_option"]'
+);
 
 export default class View {
+  static currentMenu = {};
+  static currentPlanet = {};
+  static command;
+
   static loadingPlanets(planets) {
     this.planetNames = planets.map(({ name }) => name);
-
     const firstPlanet = planets[0];
-    View._setPlanetInPage(firstPlanet);
+    View.setPlanetInPage(firstPlanet);
   }
 
-  static _setPlanetInPage(planet) {
+  static setPlanetInPage(planet) {
     this.currentPlanet = planet;
-    const initialPropPlanet = this.currentPlanet.overview;
-    View._setPropPlanet(initialPropPlanet);
-  }
-  static _setPropPlanet(prop) {
-    this.currentProp = prop;
+
+    const initialMenuPlanet = this.currentPlanet.overview;
+
+    View._setMenuPlanet(initialMenuPlanet);
+    View._setPlanetName();
+    View._setPlanetProp();
   }
 
-  static initializeMonitoringPlanetProp() {
-    this.currentPropProxy = new Proxy(
-      {},
-      {
-        set: function (target, _, value) {
-          target = value;
-          View._onChangeProp();
-          return true;
-        },
-      }
-    );
+  static setCommandForGetPlanet(command) {
+    this.command = command;
+    return this;
+  }
+
+  static _setPlanetName() {
+    const planetNameInHtml = this.currentPlanet.name;
+    planetName.innerHTML = planetNameInHtml;
+  }
+  static _setPlanetProp() {
+    const { rotation, revolution, radius, temperature } = this.currentPlanet;
+
+    planetRotation.innerHTML = rotation;
+    planetRevolution.innerHTML = revolution;
+    planetRadius.innerHTML = radius;
+    planetTemperature.innerHTML = temperature;
+  }
+
+  static _setMenuPlanet(menu) {
+    this.currentMenuProxy.data = menu;
+  }
+
+  static initializeMonitoringPlanetMenu() {
+    this.currentMenuProxy = new Proxy(this.currentMenu, {
+      set: function (target, key, value) {
+        if (value === View.currentMenu) return true;
+        target = value;
+        View._onSetMenu(value);
+        return true;
+      },
+    });
+  }
+
+  static _onSetMenu(value) {
+    this.currentMenu = value;
+    View._onSetMenuSource();
+    View._onSetMenuImage();
+  }
+
+  static _onSetMenuImage() {}
+
+  static _onSetMenuSource() {
+    const textOnElementP = this.currentMenu.content;
+    planetSourceP.innerHTML = textOnElementP;
+
+    const textOnElementWikipediaLink = this.currentMenu.source;
+
+    planetSourceLink.href = textOnElementWikipediaLink;
   }
 
   static initializeMobileViewPort() {
@@ -47,7 +99,8 @@ export default class View {
   }
 
   static _removeOldContentHeader() {
-    navContent.innerHTML = "";
+    const htmlNavChild = View._getElementFromId({ id: "menu_select_mobile" });
+    htmlNavChild ? navContent.removeChild(htmlNavChild) : null;
   }
 
   static _getElementFromId({ id, baseElement = document }) {
@@ -62,9 +115,10 @@ export default class View {
 
   // Menu mobile methods
   static async _setMenuMobile() {
-    const htmlTemplateMenuDesktop = getMenuMobileTemplate(this.planetNames);
-    navContent.innerHTML = `${htmlTemplateMenuDesktop}`;
+    const htmlTemplateMenuMobile = getMenuMobileTemplate(this.planetNames);
 
+    navContent.innerHTML = `${htmlTemplateMenuMobile}`;
+    this.setEventClickFromBtnPlanetOptionMobile();
     this.addEventFromBtnOpenModalListPlanets();
   }
   static addEventFromBtnOpenModalListPlanets() {
@@ -93,19 +147,32 @@ export default class View {
 
   //methods
 
-  static setEventClickFromBtnPlanetOptionMobile(command) {
+  static setEventClickForBtnMenuPlanetOption() {
+    btnsMenuOptionPlanet.forEach((btn) => {
+      btn.addEventListener("click", View._setNewMenuFromPlanetPage);
+    });
+  }
+
+  static _setNewMenuFromPlanetPage(event) {
+    const menuProp = event.currentTarget.id;
+    const newMenuProp = View.currentPlanet[menuProp];
+
+    View.currentMenuProxy.data = newMenuProp;
+  }
+
+  static setEventClickFromBtnPlanetOptionMobile() {
     const btnsPlanetOptionMobile = View._getElementsFromClass({
       className: "planet_option_mobile",
     });
 
     btnsPlanetOptionMobile.forEach((btn) => {
-      btn.addEventListener("click", (args) =>
-        View._eventClickFromBtnPlanetOptionMobile(args, command)
-      );
+      btn.addEventListener("click", (args) => {
+        View._getPlanetPage(args, View.command);
+        return View._eventFromBtnOpenModalListPlanets();
+      });
     });
   }
-  static async _eventClickFromBtnPlanetOptionMobile(e, command) {
-    const planet = await command(e.currentTarget.id);
-    this.currentPropProxy.data = planet;
+  static _getPlanetPage(e, command) {
+    command(e.currentTarget.id);
   }
 }
