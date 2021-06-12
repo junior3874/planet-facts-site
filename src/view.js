@@ -1,3 +1,4 @@
+import getMenuDesktopTemplate from "./templates/menuDesktop.js";
 import getMenuMobileTemplate from "./templates/menuMobile.js";
 
 const navContent = document.getElementById("planet_options");
@@ -188,6 +189,12 @@ export default class View {
 	}
 	// Menu desktop methods
 	static _setMenuDesktop() {
+		const htmlTemplateMenuDesktop = getMenuDesktopTemplate(this.planetNames);
+
+		navContent.innerHTML = `${htmlTemplateMenuDesktop}`;
+
+		this.setEventClickFromBtnPlanetOptionMobile();
+
 		return;
 	}
 
@@ -208,7 +215,7 @@ export default class View {
 
 	static setEventClickFromBtnPlanetOptionMobile() {
 		const btnsPlanetOptionMobile = View._getElementsFromClass({
-			className: "planet_option_mobile",
+			className: "planet_option",
 		});
 
 		btnsPlanetOptionMobile.forEach((btn) => {
